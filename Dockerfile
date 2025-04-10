@@ -18,7 +18,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # Install Python dependencies from requirements.txt
 RUN pip install --upgrade pip && \
-    pip install -r backend/requirements.txt
+    pip install -r requirements.txt
 
 # Expose the port the app runs on
 EXPOSE 8000
