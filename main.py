@@ -14,7 +14,7 @@ if not os.path.exists(static_folder):
 # Allow frontend to talk to the backend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # You can restrict this later
+    allow_origins=["https://prod-desc-frontend.vercel.app/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
