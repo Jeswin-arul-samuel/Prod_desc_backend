@@ -11,7 +11,6 @@ COPY . /app
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
-    libgthread-2.0-0 \
     libsm6 \
     libxext6 \
     libxrender-dev \
@@ -24,7 +23,7 @@ ENV PYTHONUNBUFFERED=1
 RUN python -m venv /opt/venv && \
     . /opt/venv/bin/activate && \
     pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install -r backend/requirements.txt
 
 # Make sure the virtual environment's Python is used for the app
 ENV PATH="/opt/venv/bin:$PATH"
