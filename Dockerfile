@@ -1,10 +1,13 @@
-# Use the official Python image from Docker Hub
+# Use an official Python runtime as a parent image
 FROM python:3.12-slim
 
-# Set the working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# Install system dependencies required for OpenCV (including the missing libgthread-2.0.so.0)
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Update apt-get and install necessary libraries for OpenCV
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
@@ -14,16 +17,20 @@ RUN apt-get update && apt-get install -y \
     libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements.txt and install Python dependencies
-COPY requirements.txt /app/
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+# Set environment variable for Python to not buffer output (useful for logs)
+ENV PYTHONUNBUFFERED=1
 
-# Copy the rest of the application
-COPY backend /app
+# Install pip and Python dependencies
+RUN python -m venv /opt/venv && \
+    . /opt/venv/bin/activate && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Make sure the virtual environment's Python is used for the app
+ENV PATH="/opt/venv/bin:$PATH"
 
 # Expose the port the app runs on
 EXPOSE 8000
 
-# Start the application using uvicorn
+# Define the command to run the app (assumes uvicorn is installed)
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
