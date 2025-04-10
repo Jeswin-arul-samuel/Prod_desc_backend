@@ -23,7 +23,7 @@ ENV PYTHONUNBUFFERED=1
 RUN python -m venv /opt/venv && \
     . /opt/venv/bin/activate && \
     pip install --upgrade pip && \
-    pip install -r backend/requirements.txt
+    pip install -r requirements.txt
 
 # Make sure the virtual environment's Python is used for the app
 ENV PATH="/opt/venv/bin:$PATH"
